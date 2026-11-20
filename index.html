@@ -1,0 +1,2242 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Для Алёны • 3 месяца вместе</title>
+
+    <!-- Шрифты для заголовков и интерфейса (с плавным переходом на системные, если нет сети) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* ============================================================================
+           1. БАЗОВЫЕ ПЕРЕМЕННЫЕ И СБРОС СТИЛЕЙ
+           Атмосфера: «Звёздный кинотеатр и парящие фонарики»
+           ============================================================================ */
+        :root {
+            --bg-top: #090c1a;
+            --bg-mid: #171b36;
+            --bg-bot: #211c3a;
+            --gold-light: #f6d38b;
+            --gold-deep: #df9f44;
+            --blush: #e88c9d;
+            --cream: #faf4ec;
+            --cream-muted: rgba(250, 244, 236, 0.78);
+            --cream-soft: rgba(250, 244, 236, 0.52);
+            --glass-bg: rgba(22, 24, 48, 0.76);
+            --glass-border: rgba(246, 211, 139, 0.28);
+            --font-serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+            --font-sans: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(165deg, var(--bg-top) 0%, var(--bg-mid) 50%, var(--bg-bot) 100%);
+            background-attachment: fixed;
+            color: var(--cream);
+            font-family: var(--font-sans);
+            line-height: 1.5;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        button {
+            font-family: inherit;
+            cursor: pointer;
+            border: none;
+            background: none;
+            color: inherit;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* ============================================================================
+           2. ФОНОВЫЙ ХОЛСТ И АТМОСФЕРНОЕ СВЕЧЕНИЕ
+           ============================================================================ */
+        #sky-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            display: block;
+        }
+
+        .ambient-glow {
+            position: fixed;
+            left: 50%;
+            transform: translateX(-50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .ambient-glow--top {
+            top: -18vh;
+            width: 85vw;
+            height: 55vh;
+            background: radial-gradient(ellipse at center, rgba(246, 211, 139, 0.12) 0%, rgba(232, 140, 157, 0.05) 45%, transparent 72%);
+        }
+
+        .ambient-glow--bottom {
+            bottom: -18vh;
+            width: 80vw;
+            height: 45vh;
+            background: radial-gradient(ellipse at center, rgba(232, 140, 157, 0.08) 0%, rgba(223, 159, 68, 0.06) 45%, transparent 72%);
+        }
+
+        /* ============================================================================
+           3. ОСНОВНОЙ КОНТЕЙНЕР И ШАПКА (HERO)
+           ============================================================================ */
+        .page-wrapper {
+            position: relative;
+            z-index: 1;
+            max-width: 1160px;
+            margin: 0 auto;
+            padding: 48px 20px 64px;
+        }
+
+        .hero {
+            text-align: center;
+            max-width: 780px;
+            margin: 0 auto 48px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 20px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(246, 211, 139, 0.45);
+            box-shadow: 0 0 24px rgba(246, 211, 139, 0.18);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--gold-light);
+            margin-bottom: 22px;
+        }
+
+        .hero-badge-star {
+            display: inline-block;
+            animation: softPulse 2.4s ease-in-out infinite;
+        }
+
+        .hero-title {
+            font-family: var(--font-serif);
+            font-size: clamp(2.8rem, 6vw, 4.4rem);
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            line-height: 1.08;
+            color: var(--cream);
+            text-shadow: 0 4px 26px rgba(246, 211, 139, 0.26);
+            margin-bottom: 16px;
+        }
+
+        .hero-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            opacity: 0.85;
+        }
+
+        .hero-divider-line {
+            width: 68px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(246, 211, 139, 0.78), transparent);
+        }
+
+        .hero-subtitle {
+            font-family: var(--font-serif);
+            font-style: italic;
+            font-size: clamp(1.22rem, 2.4vw, 1.52rem);
+            color: rgba(250, 244, 236, 0.9);
+            line-height: 1.55;
+            margin: 0 auto 30px;
+            max-width: 680px;
+        }
+
+        /* Панель статистики и управления */
+        .control-bar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            padding: 14px 20px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(246, 211, 139, 0.25);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: 0 14px 36px -12px rgba(4, 6, 16, 0.75);
+        }
+
+        .stats-group {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .stat-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 7px 14px;
+            border-radius: 999px;
+            background: rgba(9, 12, 26, 0.65);
+            border: 1px solid rgba(246, 211, 139, 0.24);
+            font-size: 13px;
+            color: rgba(250, 244, 236, 0.92);
+        }
+
+        .stat-pill--watched {
+            border-color: rgba(232, 140, 157, 0.34);
+        }
+
+        .stat-value-gold {
+            color: var(--gold-light);
+            font-weight: 600;
+        }
+
+        .stat-value-blush {
+            color: var(--blush);
+            font-weight: 600;
+        }
+
+        .actions-group {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .ctrl-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 9px 15px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 500;
+            color: rgba(250, 244, 236, 0.92);
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(246, 211, 139, 0.25);
+            transition: background 0.25s ease, border-color 0.25s ease, transform 0.2s ease, color 0.25s ease;
+        }
+
+        .ctrl-btn:hover {
+            background: rgba(246, 211, 139, 0.16);
+            border-color: rgba(246, 211, 139, 0.58);
+            color: var(--gold-light);
+        }
+
+        .ctrl-btn:active {
+            transform: scale(0.96);
+        }
+
+        .ctrl-btn--primary {
+            background: rgba(246, 211, 139, 0.12);
+            border-color: rgba(246, 211, 139, 0.42);
+            color: var(--gold-light);
+        }
+
+        .ctrl-btn--subtle {
+            color: rgba(250, 244, 236, 0.72);
+            border-color: rgba(255, 255, 255, 0.14);
+        }
+
+        .ctrl-btn--subtle:hover {
+            color: var(--blush);
+            border-color: rgba(232, 140, 157, 0.45);
+            background: rgba(232, 140, 157, 0.12);
+        }
+
+        /* ============================================================================
+           4. ЦЕНТРИРОВАННАЯ FLEXBOX-СЕТКА ДЛЯ 7 КАРТОЧЕК (3+3+1 / 2+2+2+1 / 1)
+           ============================================================================ */
+        .cards-flex {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 28px;
+        }
+
+        .card-scene {
+            width: 344px;
+            max-width: 100%;
+            height: 496px;
+            min-height: 480px;
+            perspective: 1300px;
+            -webkit-perspective: 1300px;
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            -webkit-transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+            cursor: pointer;
+            outline: none;
+        }
+
+        .card-inner:focus-visible {
+            box-shadow: 0 0 0 2px var(--gold-light);
+            border-radius: 22px;
+        }
+
+        .card-scene.is-flipped .card-inner {
+            transform: rotateY(180deg);
+            -webkit-transform: rotateY(180deg);
+        }
+
+        .card-face {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 22px;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: box-shadow 0.35s ease, border-color 0.35s ease;
+        }
+
+        /* Лицевая сторона */
+        .card-front {
+            padding: 24px;
+            background: linear-gradient(155deg, rgba(33, 28, 58, 0.86) 0%, rgba(14, 17, 36, 0.94) 100%);
+            border: 1px solid rgba(246, 211, 139, 0.3);
+            box-shadow:
+                0 18px 42px -14px rgba(4, 6, 16, 0.84),
+                inset 0 1px 0 rgba(255, 240, 205, 0.16);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        .card-scene:hover .card-front {
+            border-color: rgba(246, 211, 139, 0.65);
+            box-shadow:
+                0 22px 48px -12px rgba(4, 6, 16, 0.92),
+                0 0 28px rgba(246, 211, 139, 0.18),
+                inset 0 1px 0 rgba(255, 240, 205, 0.25);
+        }
+
+        .ticket-frame {
+            position: absolute;
+            top: 11px;
+            right: 11px;
+            bottom: 11px;
+            left: 11px;
+            border: 1px dashed rgba(246, 211, 139, 0.22);
+            border-radius: 15px;
+            pointer-events: none;
+        }
+
+        .corner-ornament {
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            pointer-events: none;
+            opacity: 0.72;
+        }
+
+        .corner-tl { top: 15px; left: 15px; }
+        .corner-tr { top: 15px; right: 15px; transform: scaleX(-1); }
+        .corner-bl { bottom: 15px; left: 15px; transform: scaleY(-1); }
+        .corner-br { bottom: 15px; right: 15px; transform: scale(-1, -1); }
+
+        .card-front-top {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            padding: 4px 4px 0;
+        }
+
+        .moment-label {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--gold-light);
+        }
+
+        .status-dot {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 3px 10px;
+            border-radius: 999px;
+            font-size: 10px;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(246, 211, 139, 0.26);
+            color: rgba(250, 244, 236, 0.8);
+        }
+
+        .card-front-center {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 8px 6px;
+            margin: auto 0;
+        }
+
+        .svg-wrap {
+            margin-bottom: 18px;
+            filter: drop-shadow(0 0 12px rgba(246, 211, 139, 0.42));
+            transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), filter 0.35s ease;
+        }
+
+        .card-scene:hover .svg-wrap {
+            transform: translateY(-4px) scale(1.05);
+            filter: drop-shadow(0 0 18px rgba(246, 211, 139, 0.68));
+        }
+
+        .card-hint {
+            font-family: var(--font-serif);
+            font-size: 24px;
+            font-weight: 600;
+            line-height: 1.28;
+            color: var(--cream);
+            text-shadow: 0 2px 12px rgba(0, 0, 0, 0.45);
+        }
+
+        .card-front-bottom {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding-bottom: 4px;
+        }
+
+        .front-cta {
+            font-size: 12px;
+            letter-spacing: 0.04em;
+            color: rgba(246, 211, 139, 0.78);
+        }
+
+        .front-cta--watched {
+            color: var(--blush);
+            font-weight: 500;
+        }
+
+        /* Обратная сторона */
+        .card-back {
+            padding: 22px 22px 20px;
+            transform: rotateY(180deg);
+            -webkit-transform: rotateY(180deg);
+            background: linear-gradient(160deg, rgba(35, 30, 65, 0.95) 0%, rgba(17, 20, 42, 0.97) 58%, rgba(30, 23, 52, 0.96) 100%);
+            border: 1px solid rgba(246, 211, 139, 0.5);
+            box-shadow:
+                0 20px 48px -12px rgba(4, 6, 16, 0.92),
+                0 0 28px rgba(246, 211, 139, 0.16),
+                inset 0 0 28px rgba(246, 211, 139, 0.05);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+
+        .card-back-glow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 110px;
+            background: linear-gradient(180deg, rgba(246, 211, 139, 0.1) 0%, transparent 100%);
+            pointer-events: none;
+        }
+
+        .card-back-header {
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-back-toprow {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .meta-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 3px 10px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            background: rgba(246, 211, 139, 0.12);
+            border: 1px solid rgba(246, 211, 139, 0.34);
+            color: var(--gold-light);
+        }
+
+        .btn-flip-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 9px;
+            border-radius: 8px;
+            font-size: 11px;
+            color: rgba(250, 244, 236, 0.62);
+            transition: color 0.25s ease, background 0.25s ease;
+        }
+
+        .btn-flip-back:hover {
+            color: var(--gold-light);
+            background: rgba(255, 255, 255, 0.07);
+        }
+
+        .card-back-title {
+            font-family: var(--font-serif);
+            font-size: 24px;
+            font-weight: 600;
+            line-height: 1.18;
+            color: var(--gold-light);
+        }
+
+        .card-back-body {
+            position: relative;
+            z-index: 1;
+            margin: auto 0;
+            padding: 10px 0;
+        }
+
+        /* Специальная светящаяся золотая рамка цитаты для 6-й карточки */
+        .highlight-quote-box {
+            padding: 11px 14px;
+            border-radius: 13px;
+            background: linear-gradient(135deg, rgba(246, 211, 139, 0.13) 0%, rgba(223, 159, 68, 0.06) 100%);
+            border: 1px solid rgba(246, 211, 139, 0.55);
+            box-shadow: 0 0 22px rgba(246, 211, 139, 0.18), inset 0 0 12px rgba(246, 211, 139, 0.08);
+            margin-bottom: 10px;
+        }
+
+        .highlight-quote-text {
+            font-family: var(--font-serif);
+            font-style: italic;
+            font-size: 21px;
+            font-weight: 600;
+            line-height: 1.24;
+            color: var(--gold-light);
+            text-shadow: 0 2px 10px rgba(246, 211, 139, 0.28);
+        }
+
+        .card-back-desc {
+            font-family: var(--font-serif);
+            font-style: italic;
+            font-size: 19px;
+            line-height: 1.38;
+            color: rgba(250, 244, 236, 0.92);
+        }
+
+        .card-back-desc--compact {
+            font-family: var(--font-sans);
+            font-style: normal;
+            font-size: 12.5px;
+            line-height: 1.48;
+            color: rgba(250, 244, 236, 0.84);
+        }
+
+        /* Нижняя панель обратной стороны */
+        .card-back-footer {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(246, 211, 139, 0.16);
+        }
+
+        .timecode-pill {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            padding: 7px 12px;
+            border-radius: 12px;
+            background: rgba(9, 12, 26, 0.68);
+            border: 1px solid rgba(246, 211, 139, 0.32);
+        }
+
+        .timecode-value {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--cream);
+            letter-spacing: 0.02em;
+        }
+
+        .timecode-clock {
+            color: var(--gold-light);
+        }
+
+        .btn-copy {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 10px;
+            border-radius: 8px;
+            font-size: 11.5px;
+            font-weight: 500;
+            color: var(--gold-light);
+            background: rgba(246, 211, 139, 0.12);
+            border: 1px solid rgba(246, 211, 139, 0.3);
+            transition: background 0.25s ease, transform 0.2s ease;
+        }
+
+        .btn-copy:hover {
+            background: rgba(246, 211, 139, 0.24);
+        }
+
+        .btn-copy:active {
+            transform: scale(0.95);
+        }
+
+        .full-video-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 12px;
+            background: rgba(246, 211, 139, 0.12);
+            border: 1px solid rgba(246, 211, 139, 0.48);
+            box-shadow: 0 0 18px rgba(246, 211, 139, 0.18);
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            color: var(--gold-light);
+        }
+
+        .btn-watch {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 10px 16px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold-deep) 100%);
+            color: #090c1a;
+            font-size: 13.5px;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            box-shadow: 0 6px 20px -4px rgba(246, 211, 139, 0.44);
+            transition: transform 0.22s ease, box-shadow 0.25s ease, filter 0.25s ease;
+        }
+
+        .btn-watch:hover {
+            filter: brightness(1.06);
+            box-shadow: 0 8px 26px -2px rgba(246, 211, 139, 0.65);
+            transform: translateY(-1px);
+        }
+
+        .btn-watch:active {
+            transform: scale(0.98);
+        }
+
+        .btn-watched {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            width: 100%;
+            padding: 8px 14px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+            background: rgba(255, 255, 255, 0.05);
+            color: rgba(250, 244, 236, 0.82);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: all 0.25s ease;
+        }
+
+        .btn-watched:hover {
+            background: rgba(232, 140, 157, 0.14);
+            color: var(--blush);
+            border-color: rgba(232, 140, 157, 0.42);
+        }
+
+        .btn-watched.is-watched {
+            background: rgba(232, 140, 157, 0.2);
+            color: var(--blush);
+            border-color: rgba(232, 140, 157, 0.58);
+            box-shadow: 0 0 16px rgba(232, 140, 157, 0.24);
+        }
+
+        /* ============================================================================
+           5. СЕКРЕТНОЕ ФИНАЛЬНОЕ ПИСЬМО (КОНВЕРТ С СУРГУЧНОЙ ПЕЧАТЬЮ)
+           ============================================================================ */
+        .letter-section {
+            max-width: 720px;
+            margin: 76px auto 0;
+        }
+
+        .envelope-wrapper {
+            text-align: center;
+        }
+
+        .envelope-card {
+            position: relative;
+            padding: 40px 28px;
+            border-radius: 26px;
+            background: linear-gradient(180deg, rgba(35, 30, 66, 0.9) 0%, rgba(16, 19, 39, 0.96) 100%);
+            border: 1px solid rgba(246, 211, 139, 0.32);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: 0 20px 52px -14px rgba(4, 6, 16, 0.85);
+            cursor: pointer;
+            overflow: hidden;
+            transition: border-color 0.35s ease, transform 0.35s ease, box-shadow 0.35s ease;
+        }
+
+        .envelope-card:hover {
+            border-color: rgba(246, 211, 139, 0.6);
+            transform: translateY(-2px);
+        }
+
+        .envelope-card.is-unlocked {
+            animation: envelopePulse 2.6s ease-in-out infinite;
+        }
+
+        .envelope-top-glow {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 50% 0%, rgba(246, 211, 139, 0.14), transparent 65%);
+            pointer-events: none;
+        }
+
+        .wax-seal-circle {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 82px;
+            height: 82px;
+            border-radius: 50%;
+            background: rgba(246, 211, 139, 0.1);
+            border: 1px solid rgba(246, 211, 139, 0.38);
+            margin-bottom: 18px;
+            transition: transform 0.4s ease;
+        }
+
+        .envelope-card:hover .wax-seal-circle {
+            transform: scale(1.06);
+        }
+
+        .envelope-kicker {
+            font-size: 11px;
+            letter-spacing: 0.24em;
+            text-transform: uppercase;
+            color: rgba(246, 211, 139, 0.82);
+            margin-bottom: 8px;
+        }
+
+        .envelope-title {
+            font-family: var(--font-serif);
+            font-size: clamp(1.9rem, 4vw, 2.5rem);
+            font-weight: 600;
+            color: var(--cream);
+            margin-bottom: 10px;
+        }
+
+        .envelope-status {
+            font-size: 14px;
+            color: var(--cream-muted);
+            max-width: 440px;
+            margin: 0 auto 22px;
+        }
+
+        .progress-track {
+            max-width: 300px;
+            height: 7px;
+            margin: 0 auto 22px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            border-radius: 999px;
+            background: linear-gradient(90deg, var(--gold-deep) 0%, var(--gold-light) 60%, var(--blush) 100%);
+            transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .envelope-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 26px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold-deep) 100%);
+            color: #090c1a;
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: 0 0 26px rgba(246, 211, 139, 0.45);
+        }
+
+        .open-now-wrap {
+            margin-top: 14px;
+        }
+
+        .open-now-btn {
+            font-size: 12px;
+            color: rgba(250, 244, 236, 0.45);
+            text-decoration: underline;
+            text-underline-offset: 4px;
+            padding: 6px 10px;
+            transition: color 0.25s ease;
+        }
+
+        .open-now-btn:hover {
+            color: var(--gold-light);
+        }
+
+        /* Раскрытое письмо */
+        .letter-paper {
+            position: relative;
+            padding: 44px 36px;
+            border-radius: 26px;
+            background: linear-gradient(150deg, rgba(37, 32, 68, 0.96) 0%, rgba(22, 23, 49, 0.97) 55%, rgba(14, 17, 36, 0.98) 100%);
+            border: 1px solid rgba(246, 211, 139, 0.48);
+            box-shadow: 0 24px 64px -15px rgba(4, 6, 16, 0.92), 0 0 42px rgba(246, 211, 139, 0.16);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            animation: letterReveal 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        .letter-inner-frame {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            bottom: 14px;
+            left: 14px;
+            border: 1px solid rgba(246, 211, 139, 0.2);
+            border-radius: 18px;
+            pointer-events: none;
+        }
+
+        .letter-badge-wrap {
+            text-align: center;
+            margin-bottom: 18px;
+        }
+
+        .letter-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 16px;
+            border-radius: 999px;
+            background: rgba(246, 211, 139, 0.1);
+            border: 1px solid rgba(246, 211, 139, 0.32);
+            color: var(--gold-light);
+            font-size: 11px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+        }
+
+        .letter-heading {
+            font-family: var(--font-serif);
+            font-size: clamp(1.9rem, 4vw, 2.55rem);
+            font-weight: 600;
+            text-align: center;
+            color: var(--gold-light);
+            margin-bottom: 22px;
+        }
+
+        .letter-body {
+            font-family: var(--font-serif);
+            font-style: italic;
+            font-size: clamp(1.22rem, 2.3vw, 1.48rem);
+            line-height: 1.6;
+            text-align: center;
+            color: rgba(250, 244, 236, 0.95);
+            max-width: 580px;
+            margin: 0 auto;
+        }
+
+        .letter-body p + p {
+            margin-top: 18px;
+        }
+
+        .letter-sign {
+            font-style: normal;
+            font-weight: 600;
+            font-size: clamp(1.45rem, 2.8vw, 1.85rem);
+            color: var(--blush);
+            padding-top: 6px;
+        }
+
+        .letter-footer {
+            position: relative;
+            z-index: 1;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(246, 211, 139, 0.18);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            font-size: 12px;
+        }
+
+        .letter-footer-note {
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: rgba(246, 211, 139, 0.78);
+        }
+
+        .btn-close-letter {
+            color: rgba(250, 244, 236, 0.56);
+            text-decoration: underline;
+            text-underline-offset: 4px;
+            padding: 4px 6px;
+            transition: color 0.25s ease;
+        }
+
+        .btn-close-letter:hover {
+            color: var(--gold-light);
+        }
+
+        /* ============================================================================
+           6. ФУТЕР И TOAST-УВЕДОМЛЕНИЕ
+           ============================================================================ */
+        .site-footer {
+            margin-top: 72px;
+            padding-top: 28px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        .footer-main {
+            font-family: var(--font-serif);
+            font-size: 20px;
+            color: rgba(250, 244, 236, 0.88);
+            margin-bottom: 6px;
+        }
+
+        .footer-tip {
+            font-size: 12px;
+            color: rgba(250, 244, 236, 0.46);
+            max-width: 440px;
+            margin: 0 auto;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translate(-50%, 16px);
+            z-index: 90;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.28s ease, transform 0.28s ease;
+        }
+
+        .toast.is-visible {
+            opacity: 1;
+            transform: translate(-50%, 0);
+        }
+
+        .toast-inner {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            padding: 11px 20px;
+            border-radius: 999px;
+            background: rgba(24, 26, 52, 0.96);
+            border: 1px solid rgba(246, 211, 139, 0.52);
+            color: var(--cream);
+            font-size: 13.5px;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.65), 0 0 22px rgba(246, 211, 139, 0.22);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            white-space: nowrap;
+        }
+
+        .is-hidden {
+            display: none !important;
+        }
+
+        /* ============================================================================
+           7. АНИМАЦИИ И АДАПТИВНОСТЬ
+           ============================================================================ */
+        @keyframes softPulse {
+            0%, 100% { opacity: 0.65; }
+            50% { opacity: 1; }
+        }
+
+        @keyframes shufflePop {
+            0% { opacity: 0; transform: translateY(16px) scale(0.96); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .card-enter {
+            animation: shufflePop 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+
+        @keyframes envelopePulse {
+            0%, 100% {
+                box-shadow: 0 16px 44px -10px rgba(4, 6, 16, 0.8), 0 0 24px rgba(246, 211, 139, 0.28);
+                border-color: rgba(246, 211, 139, 0.56);
+            }
+            50% {
+                box-shadow: 0 18px 48px -8px rgba(4, 6, 16, 0.88), 0 0 42px rgba(246, 211, 139, 0.54);
+                border-color: rgba(246, 211, 139, 0.92);
+            }
+        }
+
+        @keyframes letterReveal {
+            0% { opacity: 0; transform: translateY(20px) scale(0.97); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        @keyframes sparkleBurst {
+            0% { opacity: 1; transform: translate(0, 0) scale(0.4) rotate(0deg); }
+            100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(1.2) rotate(130deg); }
+        }
+
+        .sparkle-particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 80;
+            animation: sparkleBurst 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @media (max-width: 760px) {
+            .page-wrapper {
+                padding: 36px 16px 52px;
+            }
+            .control-bar {
+                justify-content: center;
+                padding: 14px;
+            }
+            .letter-paper {
+                padding: 34px 22px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .card-scene {
+                height: 516px;
+            }
+            .card-front {
+                padding: 20px;
+            }
+            .card-back {
+                padding: 18px;
+            }
+            .card-hint {
+                font-size: 22px;
+            }
+            .card-back-title {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Анимированный ночной фон со звёздами и парящими золотыми фонариками -->
+    <canvas id="sky-canvas" aria-hidden="true"></canvas>
+    <div class="ambient-glow ambient-glow--top" aria-hidden="true"></div>
+    <div class="ambient-glow ambient-glow--bottom" aria-hidden="true"></div>
+
+    <div class="page-wrapper">
+
+        <!-- ШАПКА САЙТА -->
+        <header class="hero">
+            <div class="hero-badge">
+                <span class="hero-badge-star">✦</span>
+                <span>3 месяца вместе</span>
+                <span class="hero-badge-star">✦</span>
+            </div>
+
+            <h1 class="hero-title">Для Алёны</h1>
+
+            <div class="hero-divider" aria-hidden="true">
+                <span class="hero-divider-line"></span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="#f6d38b">
+                    <path d="M12 2L14.4 9.6L22 12L14.4 14.4L12 22L9.6 14.4L2 12L9.6 9.6L12 2Z"></path>
+                </svg>
+                <span class="hero-divider-line"></span>
+            </div>
+
+            <p class="hero-subtitle">
+                7 особенных сцен из наших фильмов, сериалов и мультфильмов — тех самых, где звучат слова, которые хочется говорить тебе снова и снова. Переворачивай карточки и включай нужный момент.
+            </p>
+
+            <!-- Верхняя панель статистики и кнопок -->
+            <div class="control-bar">
+                <div class="stats-group">
+                    <div class="stat-pill">
+                        <span style="color: #f6d38b;">✦</span>
+                        <span>Открыто: <strong id="opened-count" class="stat-value-gold">0</strong> / 7</span>
+                    </div>
+                    <div class="stat-pill stat-pill--watched">
+                        <span>Посмотрели ❤️: <strong id="watched-count" class="stat-value-blush">0</strong> / 7</span>
+                    </div>
+                </div>
+
+                <div class="actions-group">
+                    <button id="btn-toggle-all" type="button" class="ctrl-btn ctrl-btn--primary">
+                        <span id="btn-toggle-all-text">Открыть все</span>
+                    </button>
+                    <button id="btn-shuffle" type="button" class="ctrl-btn">
+                        <span>Перемешать</span>
+                    </button>
+                    <button id="btn-reset" type="button" class="ctrl-btn ctrl-btn--subtle">
+                        <span>Сбросить</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- СЕТКА ИЗ 7 ПЕРЕВОРАЧИВАЕМЫХ 3D-КАРТОЧЕК -->
+        <main aria-label="7 особенных моментов для Алёны">
+            <div id="cards-grid" class="cards-flex"></div>
+        </main>
+
+        <!-- СЕКРЕТНОЕ ФИНАЛЬНОЕ ПИСЬМО -->
+        <section id="letter-section" class="letter-section" aria-label="Секретное финальное письмо">
+            <!-- Запечатанный конверт -->
+            <div id="sealed-envelope-wrapper" class="envelope-wrapper">
+                <div id="envelope-card" class="envelope-card" role="button" tabindex="0" aria-label="Запечатанный конверт с письмом для Алёны">
+                    <div class="envelope-top-glow"></div>
+
+                    <div class="wax-seal-circle">
+                        <svg width="44" height="44" viewBox="0 0 48 48" fill="none" stroke="#f6d38b" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="6" y="11" width="36" height="26" rx="3.5" fill="rgba(246,211,139,0.08)"></rect>
+                            <path d="M7 13l17 13 17-13"></path>
+                            <circle cx="24" cy="25.5" r="5.5" fill="#df9f44" stroke="#f6d38b" stroke-width="1.2"></circle>
+                            <path d="M24 23.7c.65-.95 2-.85 2.3.1.3.95-.65 2-2.3 3.1-1.65-1.1-2.6-2.15-2.3-3.1.3-.95 1.65-1.05 2.3-.1z" fill="#090c1a" stroke="none"></path>
+                        </svg>
+                    </div>
+
+                    <p class="envelope-kicker">Секретное послание</p>
+                    <h2 class="envelope-title">Письмо для тебя</h2>
+                    <p id="envelope-status-text" class="envelope-status">
+                        Открой все 7 карточек, чтобы распечатать письмо ✨ — открыто <strong style="color: #f6d38b;">0</strong> из 7
+                    </p>
+
+                    <div class="progress-track">
+                        <div id="envelope-progress-bar" class="progress-fill"></div>
+                    </div>
+
+                    <div id="envelope-cta-wrap" class="is-hidden">
+                        <span class="envelope-cta">Распечатать письмо ✨</span>
+                    </div>
+                </div>
+
+                <div id="open-now-wrap" class="open-now-wrap">
+                    <button id="btn-open-letter-now" type="button" class="open-now-btn">
+                        Открыть письмо сразу
+                    </button>
+                </div>
+            </div>
+
+            <!-- Раскрытое письмо -->
+            <div id="opened-letter-wrapper" class="is-hidden">
+                <article class="letter-paper">
+                    <div class="letter-inner-frame"></div>
+
+                    <div class="letter-badge-wrap">
+                        <span class="letter-badge">
+                            <span>✦</span>
+                            <span>3 месяца с тобой</span>
+                            <span>✦</span>
+                        </span>
+                    </div>
+
+                    <h2 class="letter-heading">Алёна, с нашими 3 месяцами! ❤️</h2>
+
+                    <div class="letter-body">
+                        <p>
+                            Эти три месяца рядом с тобой стали самым тёплым и любимым временем в моей жизни. С тобой каждый обычный вечер превращается в маленькое чудо, которое хочется запомнить навсегда.
+                        </p>
+                        <p>
+                            Я невероятно ценю наши уютные киномарафоны и вечера вдвоём — когда мы вместе переживаем за героев «После», пересматриваем «Сумерки», следим за каждой новой серией «Дневников вампира» и улыбаемся на любимых мультфильмах. Самое ценное в них — даже не экран, а то, что рядом со мной ты.
+                        </p>
+                        <p>
+                            Спасибо тебе за твою нежность, искренность, смех и свет, который ты приносишь в каждый мой день. Впереди у нас ещё столько серий, глав, прогулок и счастливых моментов — и я безумно рад, что мы проживаем их вместе.
+                        </p>
+                        <p class="letter-sign">
+                            Очень сильно люблю тебя, моя Алёна!
+                        </p>
+                    </div>
+
+                    <div class="letter-footer">
+                        <span class="letter-footer-note">✦ Наша история только начинается ✦</span>
+                        <button id="btn-close-letter" type="button" class="btn-close-letter">
+                            Свернуть в конверт
+                        </button>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- ФУТЕР -->
+        <footer class="site-footer">
+            <p class="footer-main">Сделано с любовью для Алёны <span style="color: #f6d38b; margin: 0 6px;">✦</span> 3 месяца вместе</p>
+            <p class="footer-tip">Если ссылка открылась в мобильном приложении с начала — просто нажми «Копировать» рядом с таймкодом</p>
+        </footer>
+    </div>
+
+    <!-- Всплывающее уведомление (Toast) -->
+    <div id="toast" class="toast" role="status" aria-live="polite">
+        <div class="toast-inner">
+            <span style="color: #f6d38b;">✦</span>
+            <span id="toast-message">Таймкод скопирован!</span>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            'use strict';
+
+            /* ============================================================================
+               1. БЕЗОПАСНОЕ ХРАНИЛИЩЕ (ЗАЩИТА ОТ SecurityError В SANDBOXED IFRAME)
+               Если window.localStorage заблокирован, используется хранилище в памяти.
+               ============================================================================ */
+            const STORAGE_KEY = 'alena_3months_gift_v3';
+            const memoryStore = {};
+
+            const safeStorage = {
+                getItem: function (key) {
+                    try {
+                        if (typeof window !== 'undefined' && window.localStorage) {
+                            return window.localStorage.getItem(key);
+                        }
+                    } catch (err) {
+                        // Игнорируем SecurityError в изолированном iframe
+                    }
+                    return Object.prototype.hasOwnProperty.call(memoryStore, key) ? memoryStore[key] : null;
+                },
+                setItem: function (key, value) {
+                    memoryStore[key] = String(value);
+                    try {
+                        if (typeof window !== 'undefined' && window.localStorage) {
+                            window.localStorage.setItem(key, String(value));
+                        }
+                    } catch (err) {
+                        // Продолжаем работу с резервным хранилищем в памяти
+                    }
+                },
+                removeItem: function (key) {
+                    delete memoryStore[key];
+                    try {
+                        if (typeof window !== 'undefined' && window.localStorage) {
+                            window.localStorage.removeItem(key);
+                        }
+                    } catch (err) {
+                        // Безопасный фоллбэк
+                    }
+                }
+            };
+
+            /* ============================================================================
+               2. ТОЧНЫЕ ДАННЫЕ 7 КАРТОЧЕК
+               ============================================================================ */
+            const MOMENTS_DATA = [
+                {
+                    id: 1,
+                    number: '01',
+                    title: 'Новый Человек-паук: Высокое напряжение',
+                    meta: '2014',
+                    timecode: '1:45:25',
+                    copyValue: '1:45:25',
+                    isFullVideo: false,
+                    badge: '',
+                    highlightedQuote: '',
+                    buttonText: 'Смотреть момент ▶',
+                    link: 'https://vkvideo.ru/video-220018529_456249130?t=1h45m25s',
+                    frontHint: 'Когда даже огромный город замирает ради одного признания на мосту...',
+                    backText: 'Сцена на мосту — момент, когда чувства громче любых слов, а весь мир вокруг просто перестаёт существовать.',
+                    icon: 'bridge'
+                },
+                {
+                    id: 2,
+                    number: '02',
+                    title: 'Зверополис 2',
+                    meta: '2025',
+                    timecode: '1:23:46',
+                    copyValue: '1:23:46',
+                    isFullVideo: false,
+                    badge: '',
+                    highlightedQuote: '',
+                    buttonText: 'Смотреть момент ▶',
+                    link: 'https://vkvideo.ru/video-220018529_456248143?t=1h23m46s',
+                    frontHint: 'Самые тёплые слова порой звучат от того, кто всегда рядом и прикроет спину',
+                    backText: 'Особенный трогательный момент из мультфильма — включи на этом таймкоде и просто послушай.',
+                    icon: 'ears'
+                },
+                {
+                    id: 3,
+                    number: '03',
+                    title: 'Сумерки. Сага: Рассвет',
+                    meta: '2011',
+                    timecode: '00:20:10',
+                    copyValue: '00:20:10',
+                    isFullVideo: false,
+                    badge: '',
+                    highlightedQuote: '',
+                    buttonText: 'Смотреть момент ▶',
+                    link: 'https://vkvideo.ru/video-242171134_456239783?t=20m10s',
+                    frontHint: 'Самое начало речи, под каждым словом которой хочется подписаться',
+                    backText: 'Сцена на свадьбе — самое начало речи Эдварда. Слова о том, как один человек меняет всю жизнь навсегда.',
+                    icon: 'rings'
+                },
+                {
+                    id: 4,
+                    number: '04',
+                    title: 'Ходячий замок',
+                    meta: '2004',
+                    timecode: '1:33:20',
+                    copyValue: '1:33:20',
+                    isFullVideo: false,
+                    badge: '',
+                    highlightedQuote: '',
+                    buttonText: 'Смотреть момент ▶',
+                    link: 'https://vkvideo.ru/live-208684982_456239827?t=1h33m20s',
+                    frontHint: 'Тот момент, когда перестаёшь убегать, потому что нашёл самое дорогое',
+                    backText: '«Я так долго убегал, но теперь у меня есть кого защищать — это ты». Слова Хаула для Софи.',
+                    icon: 'flame'
+                },
+                {
+                    id: 5,
+                    number: '05',
+                    title: 'После. Глава 2',
+                    meta: '2020',
+                    timecode: '0:55 — до конца',
+                    copyValue: '0:55',
+                    isFullVideo: false,
+                    badge: '',
+                    highlightedQuote: '',
+                    buttonText: 'Смотреть момент ▶',
+                    link: 'https://vkvideo.ru/video-89507212_456244467?t=55s',
+                    frontHint: 'С 55-й секунды и до самого конца — о том, кто становится твоим главным смыслом',
+                    backText: 'Включай с 0:55 и смотри до самого конца ролика — искренние слова о том, что ты лучшее, что со мной случалось.',
+                    icon: 'book'
+                },
+                {
+                    id: 6,
+                    number: '06',
+                    title: 'Дневники вампира',
+                    meta: '2 сезон, 8 серия',
+                    timecode: '',
+                    copyValue: '',
+                    isFullVideo: true,
+                    badge: '✦ Весь ролик ✦',
+                    highlightedQuote: 'Деймон заставил забыть, а я не заставлю...',
+                    buttonText: 'Смотреть целиком ▶',
+                    link: 'https://vkvideo.ru/video136284333_169776523',
+                    frontHint: 'Признание, которое слишком важно, чтобы стирать его из памяти',
+                    backText: 'Момент признания Дэймона в любви Елене. Посмотри этот ролик целиком.',
+                    icon: 'locket'
+                },
+                {
+                    id: 7,
+                    number: '07',
+                    title: 'Дневники вампира',
+                    meta: '3 сезон, 10 серия',
+                    timecode: '40:40',
+                    copyValue: '40:40',
+                    isFullVideo: false,
+                    badge: '',
+                    highlightedQuote: '',
+                    buttonText: 'Смотреть момент ▶',
+                    link: 'https://vkvideo.ru/video-234262893_456268575?t=40m40s',
+                    frontHint: 'Вечер на крыльце, когда чувства наконец берут верх над всеми сомнениями',
+                    backText: 'Тот самый вечерний поцелуй Дэймона и Елены на крыльце — момент, которого ждали так долго.',
+                    icon: 'lantern'
+                }
+            ];
+
+            /* ============================================================================
+               3. МИНИМАЛИСТИЧНЫЕ ЗОЛОТЫЕ INLINE SVG-ИЛЛЮСТРАЦИИ (7 ШТУК)
+               ============================================================================ */
+            function getThemeSVG(type) {
+                const attrs = 'width="92" height="92" viewBox="0 0 88 88" fill="none" stroke="#f6d38b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"';
+
+                switch (type) {
+                    case 'bridge':
+                        // Силуэт моста с тонкой паутинкой и сердцем-звездой
+                        return '<svg ' + attrs + '>' +
+                            '<path d="M22 66V30M26 66V30M22 36h4M22 46h4"></path>' +
+                            '<path d="M62 66V30M66 66V30M62 36h4M62 46h4"></path>' +
+                            '<path d="M10 58h68" stroke-width="1.8"></path>' +
+                            '<path d="M10 52Q17 44 22 33"></path>' +
+                            '<path d="M26 33Q44 52 62 33"></path>' +
+                            '<path d="M66 33Q71 44 78 52"></path>' +
+                            '<path d="M33 41v17M44 45v13M55 41v17" opacity="0.45"></path>' +
+                            '<path d="M44 37c-4.5-3.2-7.8-6.2-7.8-9.5 0-2.5 1.9-4.4 4.3-4.4 1.6 0 2.9.9 3.5 2.2.6-1.3 1.9-2.2 3.5-2.2 2.4 0 4.3 1.9 4.3 4.4 0 3.3-3.3 6.3-7.8 9.5z" fill="rgba(232,140,157,0.22)" stroke="#e88c9d" stroke-width="1.5"></path>' +
+                            '<path d="M37 26l14 4M51 26l-14 4M44 25v12" stroke="#f6d38b" stroke-width="0.9" opacity="0.65"></path>' +
+                            '<path d="M44 10l1.4 3.4L49 14.8l-3.6 1.4L44 19.6l-1.4-3.4-3.6-1.4 3.6-1.4L44 10z" fill="#f6d38b" stroke="none"></path>' +
+                            '<circle cx="16" cy="24" r="1.2" fill="#f6d38b" stroke="none" opacity="0.7"></circle>' +
+                            '<circle cx="72" cy="22" r="1.4" fill="#e88c9d" stroke="none" opacity="0.7"></circle>' +
+                            '</svg>';
+
+                    case 'ears':
+                        // Стилизованный силуэт ушек (кроличьих и лисьих) с золотыми искрами
+                        return '<svg ' + attrs + '>' +
+                            '<path d="M31 44C26 30 26 16 31 15C36 14 39 27 39 42" fill="rgba(246,211,139,0.12)"></path>' +
+                            '<path d="M44 43C46 28 51 15 56 17C61 19 56 32 51 44" fill="rgba(246,211,139,0.12)"></path>' +
+                            '<path d="M27 56C27 46 34 40 44 40C54 40 61 46 61 56C61 64 54 69 44 69C34 69 27 64 27 56Z" fill="rgba(246,211,139,0.09)"></path>' +
+                            '<path d="M31 24C30 29 31 35 33 39" opacity="0.5"></path>' +
+                            '<path d="M53 25C51 30 49 35 47 39" opacity="0.5"></path>' +
+                            '<path d="M44 59c-2.6-1.9-4.5-3.6-4.5-5.6 0-1.4 1.1-2.5 2.5-2.5.9 0 1.7.5 2 1.3.3-.8 1.1-1.3 2-1.3 1.4 0 2.5 1.1 2.5 2.5 0 2-1.9 3.7-4.5 5.6z" fill="rgba(232,140,157,0.3)" stroke="#e88c9d" stroke-width="1.4"></path>' +
+                            '<path d="M18 28l1.6 3.8 3.8 1.6-3.8 1.6-1.6 3.8-1.6-3.8-3.8-1.6 3.8-1.6 1.6-3.8z" fill="#f6d38b" stroke="none"></path>' +
+                            '<path d="M70 25l1.3 3.1 3.1 1.3-3.1 1.3-1.3 3.1-1.3-3.1-3.1-1.3 3.1-1.3 1.3-3.1z" fill="#e88c9d" stroke="none"></path>' +
+                            '<circle cx="68" cy="48" r="1.5" fill="#f6d38b" stroke="none" opacity="0.8"></circle>' +
+                            '<circle cx="20" cy="50" r="1.3" fill="#e88c9d" stroke="none" opacity="0.75"></circle>' +
+                            '</svg>';
+
+                    case 'rings':
+                        // Два переплетённых обручальных кольца с нежными листьями
+                        return '<svg ' + attrs + '>' +
+                            '<circle cx="36.5" cy="48" r="13.5" stroke="#f6d38b" stroke-width="1.9" fill="rgba(246,211,139,0.08)"></circle>' +
+                            '<circle cx="51.5" cy="48" r="13.5" stroke="#e88c9d" stroke-width="1.9" fill="rgba(232,140,157,0.08)"></circle>' +
+                            '<path d="M22 30Q33 21 44 21Q55 21 66 30" opacity="0.72"></path>' +
+                            '<path d="M26 27c-3-4-2-8 2-9 2 3 1 7-2 9z" fill="rgba(246,211,139,0.22)"></path>' +
+                            '<path d="M62 27c3-4 2-8-2-9-2 3-1 7 2 9z" fill="rgba(246,211,139,0.22)"></path>' +
+                            '<path d="M35 22c-1-4 1-7 4-8 1 3 0 6-4 8z" fill="rgba(246,211,139,0.18)"></path>' +
+                            '<path d="M53 22c1-4-1-7-4-8-1 3 0 6 4 8z" fill="rgba(246,211,139,0.18)"></path>' +
+                            '<path d="M44 27l1.5 3.6 3.6 1.5-3.6 1.5-1.5 3.6-1.5-3.6-3.6-1.5 3.6-1.5 1.5-3.6z" fill="#f6d38b" stroke="none"></path>' +
+                            '<circle cx="44" cy="18" r="2" fill="#e88c9d" stroke="none"></circle>' +
+                            '</svg>';
+
+                    case 'flame':
+                        // Сияющее волшебное пламя и звёздное сердце Кальцифера
+                        return '<svg ' + attrs + '>' +
+                            '<path d="M18 26Q29 19 40 16" stroke-dasharray="2 3" opacity="0.65"></path>' +
+                            '<path d="M17 21l1.5 3.5 3.5 1.5-3.5 1.5-1.5 3.5-1.5-3.5-3.5-1.5 3.5-1.5 1.5-3.5z" fill="#f6d38b" stroke="none"></path>' +
+                            '<path d="M44 19C44 19 60 33 60 49C60 60 52.8 68 44 68C35.2 68 28 60 28 49C28 41 33 33 36.5 29C36.5 34.5 39.5 36.5 41 34C41 28 44 19 44 19Z" fill="rgba(246,211,139,0.16)" stroke-width="1.7"></path>' +
+                            '<path d="M44 59c-4.4-3.1-7.5-6-7.5-9.2 0-2.4 1.8-4.2 4.1-4.2 1.5 0 2.8.8 3.4 2.1.6-1.3 1.9-2.1 3.4-2.1 2.3 0 4.1 1.8 4.1 4.2 0 3.2-3.1 6.1-7.5 9.2z" fill="rgba(232,140,157,0.3)" stroke="#e88c9d" stroke-width="1.5"></path>' +
+                            '<path d="M68 24l1.3 3 3 1.3-3 1.3-1.3 3-1.3-3-3-1.3 3-1.3 1.3-3z" fill="#e88c9d" stroke="none"></path>' +
+                            '<path d="M26 72h36" opacity="0.45"></path>' +
+                            '</svg>';
+
+                    case 'book':
+                        // Раскрытая книга с парящим над ней золотым сердцем
+                        return '<svg ' + attrs + '>' +
+                            '<path d="M44 66V45C38 41 26 40 16 43V64C26 61 38 62 44 66Z" fill="rgba(246,211,139,0.1)"></path>' +
+                            '<path d="M44 66V45C50 41 62 40 72 43V64C62 61 50 62 44 66Z" fill="rgba(246,211,139,0.1)"></path>' +
+                            '<path d="M22 49c5-1 11-.8 16 1M22 55c5-1 11-.8 16 1" opacity="0.48"></path>' +
+                            '<path d="M66 49c-5-1-11-.8-16 1M66 55c-5-1-11-.8-16 1" opacity="0.48"></path>' +
+                            '<path d="M44 36.5c-6.5-4.5-11.2-8.8-11.2-13.5 0-3.5 2.7-6.2 6-6.2 2.2 0 4.1 1.2 5.2 3 1.1-1.8 3-3 5.2-3 3.3 0 6 2.7 6 6.2 0 4.7-4.7 9-11.2 13.5z" fill="rgba(246,211,139,0.22)" stroke="#f6d38b" stroke-width="1.7"></path>' +
+                            '<path d="M26 22l1.1 2.6 2.6 1.1-2.6 1.1-1.1 2.6-1.1-2.6-2.6-1.1 2.6-1.1 1.1-2.6z" fill="#e88c9d" stroke="none"></path>' +
+                            '<path d="M63 24l1.2 2.8 2.8 1.2-2.8 1.2-1.2 2.8-1.2-2.8-2.8-1.2 2.8-1.2 1.2-2.8z" fill="#f6d38b" stroke="none"></path>' +
+                            '<circle cx="44" cy="11" r="1.4" fill="#e88c9d" stroke="none" opacity="0.85"></circle>' +
+                            '</svg>';
+
+                    case 'locket':
+                        // Винтажный кулон на цепочке с полумесяцем
+                        return '<svg ' + attrs + '>' +
+                            '<path d="M24 12Q34 31 44 36Q54 31 64 12" opacity="0.75"></path>' +
+                            '<circle cx="44" cy="38.5" r="2.5"></circle>' +
+                            '<path d="M44 41.5C52.5 41.5 58 48.2 58 57C58 65.5 51.8 72.5 44 72.5C36.2 72.5 30 65.5 30 57C30 48.2 35.5 41.5 44 41.5Z" fill="rgba(246,211,139,0.13)" stroke-width="1.7"></path>' +
+                            '<ellipse cx="44" cy="57" rx="9.5" ry="11.5" opacity="0.45"></ellipse>' +
+                            '<path d="M46.5 50.5a6.5 6.5 0 1 0 3.2 10.6 5.2 5.2 0 0 1-3.2-10.6z" fill="rgba(232,140,157,0.34)" stroke="#e88c9d" stroke-width="1.4"></path>' +
+                            '<path d="M22 48l1.3 3.1 3.1 1.3-3.1 1.3-1.3 3.1-1.3-3.1-3.1-1.3 3.1-1.3 1.3-3.1z" fill="#f6d38b" stroke="none"></path>' +
+                            '<path d="M66 42l1 2.4 2.4 1-2.4 1-1 2.4-1-2.4-2.4-1 2.4-1 1-2.4z" fill="#e88c9d" stroke="none"></path>' +
+                            '</svg>';
+
+                    case 'lantern':
+                        // Полумесяц и тёплый сияющий фонарь на крыльце
+                        return '<svg ' + attrs + '>' +
+                            '<path d="M26 16a10 10 0 1 0 10.5 14.5A8 8 0 0 1 26 16z" fill="rgba(246,211,139,0.22)"></path>' +
+                            '<path d="M52 72V44M45 72h14"></path>' +
+                            '<path d="M44 28h16l-2.2 14h-11.6L44 28z" fill="rgba(246,211,139,0.22)"></path>' +
+                            '<path d="M42 28l10-6 10 6M52 22v-3M45.5 42h13"></path>' +
+                            '<circle cx="52" cy="35" r="2.8" fill="#faf4ec" stroke="#e88c9d" stroke-width="1.2"></circle>' +
+                            '<path d="M38 35h-3M69 35h-3M40 24l-2-2M64 24l2-2" opacity="0.55"></path>' +
+                            '<path d="M24 46l1.3 3.2 3.2 1.3-3.2 1.3-1.3 3.2-1.3-3.2-3.2-1.3 3.2-1.3 1.3-3.2z" fill="#e88c9d" stroke="none"></path>' +
+                            '<path d="M68 18l1 2.5 2.5 1-2.5 1-1 2.5-1-2.5-2.5-1 2.5-1 1-2.5z" fill="#f6d38b" stroke="none"></path>' +
+                            '<circle cx="34" cy="60" r="1.4" fill="#f6d38b" stroke="none" opacity="0.7"></circle>' +
+                            '<circle cx="70" cy="52" r="1.3" fill="#e88c9d" stroke="none" opacity="0.7"></circle>' +
+                            '</svg>';
+
+                    default:
+                        return '';
+                }
+            }
+
+            const CORNER_SVG = '<svg viewBox="0 0 20 20" fill="none" stroke="#f6d38b" stroke-width="1.2" width="18" height="18"><path d="M1 12V4C1 2.34 2.34 1 4 1H12"></path><circle cx="4.5" cy="4.5" r="1.2" fill="#f6d38b" stroke="none"></circle></svg>';
+
+            /* ============================================================================
+               4. СОСТОЯНИЕ ПРИЛОЖЕНИЯ
+               ============================================================================ */
+            const state = {
+                order: MOMENTS_DATA.map(function (m) { return m.id; }),
+                openedIds: [],
+                watchedIds: [],
+                flippedIds: [],
+                letterOpened: false
+            };
+
+            let unlockAnnounced = false;
+            let toastTimer = null;
+
+            function loadState() {
+                try {
+                    const raw = safeStorage.getItem(STORAGE_KEY);
+                    if (!raw) return;
+                    const parsed = JSON.parse(raw);
+                    const validIds = MOMENTS_DATA.map(function (m) { return m.id; });
+
+                    if (Array.isArray(parsed.openedIds)) {
+                        state.openedIds = parsed.openedIds.filter(function (id) { return validIds.indexOf(id) !== -1; });
+                    }
+                    if (Array.isArray(parsed.watchedIds)) {
+                        state.watchedIds = parsed.watchedIds.filter(function (id) { return validIds.indexOf(id) !== -1; });
+                    }
+                    if (typeof parsed.letterOpened === 'boolean') {
+                        state.letterOpened = parsed.letterOpened;
+                    }
+                    if (state.openedIds.length >= MOMENTS_DATA.length) {
+                        unlockAnnounced = true;
+                    }
+                } catch (err) {
+                    // При повреждённом JSON начинаем с чистого состояния
+                }
+            }
+
+            function saveState() {
+                try {
+                    safeStorage.setItem(STORAGE_KEY, JSON.stringify({
+                        openedIds: state.openedIds,
+                        watchedIds: state.watchedIds,
+                        letterOpened: state.letterOpened
+                    }));
+                } catch (err) {
+                    // Безопасный выход
+                }
+            }
+
+            /* ============================================================================
+               5. TOAST-УВЕДОМЛЕНИЯ И БЕЗОПАСНОЕ КОПИРОВАНИЕ ТАЙМКОДА
+               ============================================================================ */
+            function showToast(message) {
+                const toastEl = document.getElementById('toast');
+                const msgEl = document.getElementById('toast-message');
+                if (!toastEl || !msgEl) return;
+
+                msgEl.textContent = message;
+                toastEl.classList.add('is-visible');
+
+                if (toastTimer) {
+                    clearTimeout(toastTimer);
+                }
+                toastTimer = setTimeout(function () {
+                    toastEl.classList.remove('is-visible');
+                }, 2400);
+            }
+
+            function fallbackCopyTextarea(text) {
+                try {
+                    const textarea = document.createElement('textarea');
+                    textarea.value = text;
+                    textarea.setAttribute('readonly', '');
+                    textarea.style.position = 'fixed';
+                    textarea.style.top = '-9999px';
+                    textarea.style.left = '-9999px';
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    textarea.setSelectionRange(0, textarea.value.length);
+                    const ok = document.execCommand('copy');
+                    document.body.removeChild(textarea);
+                    return ok;
+                } catch (err) {
+                    return false;
+                }
+            }
+
+            function copyTimecode(text) {
+                try {
+                    if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+                        navigator.clipboard.writeText(text).then(function () {
+                            showToast('Таймкод скопирован!');
+                        }).catch(function () {
+                            fallbackCopyTextarea(text);
+                            showToast('Таймкод скопирован!');
+                        });
+                    } else {
+                        fallbackCopyTextarea(text);
+                        showToast('Таймкод скопирован!');
+                    }
+                } catch (err) {
+                    fallbackCopyTextarea(text);
+                    showToast('Таймкод скопирован!');
+                }
+            }
+
+            /* ============================================================================
+               6. РЕНДЕР КАРТОЧЕК И ОБРАБОТЧИКИ СОБЫТИЙ
+               ============================================================================ */
+            function renderCards(animateShuffle) {
+                const grid = document.getElementById('cards-grid');
+                if (!grid) return;
+
+                grid.innerHTML = '';
+
+                state.order.forEach(function (id, index) {
+                    const item = MOMENTS_DATA.find(function (m) { return m.id === id; });
+                    if (!item) return;
+
+                    const isFlipped = state.flippedIds.indexOf(item.id) !== -1;
+                    const isWatched = state.watchedIds.indexOf(item.id) !== -1;
+
+                    const cardScene = document.createElement('div');
+                    cardScene.className = 'card-scene' + (isFlipped ? ' is-flipped' : '') + (animateShuffle ? ' card-enter' : '');
+                    cardScene.dataset.id = String(item.id);
+                    if (animateShuffle) {
+                        cardScene.style.animationDelay = (index * 55) + 'ms';
+                    }
+
+                    // Нижний блок таймкода или бейдж «✦ Весь ролик ✦» для 6-й карточки
+                    let timecodeHTML = '';
+                    if (item.isFullVideo) {
+                        timecodeHTML = '<div class="full-video-badge">' + item.badge + '</div>';
+                    } else {
+                        timecodeHTML =
+                            '<div class="timecode-pill">' +
+                                '<span class="timecode-value"><span class="timecode-clock">⏱</span><span>' + item.timecode + '</span></span>' +
+                                '<button type="button" class="btn-copy" title="Скопировать таймкод">' +
+                                    '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+                                        '<rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>' +
+                                        '<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>' +
+                                    '</svg>' +
+                                    '<span>Копировать</span>' +
+                                '</button>' +
+                            '</div>';
+                    }
+
+                    // Текст описания (с особой золотой рамкой цитаты для 6-й карточки)
+                    let bodyHTML = '';
+                    if (item.highlightedQuote) {
+                        bodyHTML =
+                            '<div class="highlight-quote-box">' +
+                                '<p class="highlight-quote-text">«' + item.highlightedQuote + '»</p>' +
+                            '</div>' +
+                            '<p class="card-back-desc--compact">' + item.backText + '</p>';
+                    } else {
+                        bodyHTML = '<p class="card-back-desc">' + item.backText + '</p>';
+                    }
+
+                    cardScene.innerHTML =
+                        '<div class="card-inner" role="button" tabindex="0" aria-pressed="' + String(isFlipped) + '" aria-label="Момент ' + item.number + ': ' + item.frontHint + '">' +
+
+                            '<!-- ЛИЦЕВАЯ СТОРОНА -->' +
+                            '<div class="card-face card-front">' +
+                                '<div class="ticket-frame"></div>' +
+                                '<div class="corner-ornament corner-tl">' + CORNER_SVG + '</div>' +
+                                '<div class="corner-ornament corner-tr">' + CORNER_SVG + '</div>' +
+                                '<div class="corner-ornament corner-bl">' + CORNER_SVG + '</div>' +
+                                '<div class="corner-ornament corner-br">' + CORNER_SVG + '</div>' +
+
+                                '<div class="card-front-top">' +
+                                    '<span class="moment-label">Момент ' + item.number + '</span>' +
+                                    '<span class="status-dot">' + item.meta + '</span>' +
+                                '</div>' +
+
+                                '<div class="card-front-center">' +
+                                    '<div class="svg-wrap">' + getThemeSVG(item.icon) + '</div>' +
+                                    '<h3 class="card-hint">' + item.frontHint + '</h3>' +
+                                '</div>' +
+
+                                '<div class="card-front-bottom">' +
+                                    '<span class="front-cta ' + (isWatched ? 'front-cta--watched' : '') + '">' +
+                                        (isWatched ? 'Посмотрели ❤️' : 'Нажми, чтобы перевернуть ✦') +
+                                    '</span>' +
+                                '</div>' +
+                            '</div>' +
+
+                            '<!-- ОБРАТНАЯ СТОРОНА -->' +
+                            '<div class="card-face card-back">' +
+                                '<div class="card-back-glow"></div>' +
+
+                                '<div class="card-back-header">' +
+                                    '<div class="card-back-toprow">' +
+                                        '<span class="meta-badge">' + item.meta + '</span>' +
+                                        '<button type="button" class="btn-flip-back" title="Перевернуть обратно">Назад ↺</button>' +
+                                    '</div>' +
+                                    '<h3 class="card-back-title">' + item.title + '</h3>' +
+                                '</div>' +
+
+                                '<div class="card-back-body">' + bodyHTML + '</div>' +
+
+                                '<div class="card-back-footer">' +
+                                    timecodeHTML +
+                                    '<a href="' + item.link + '" target="_blank" rel="noopener noreferrer" class="btn-watch">' +
+                                        item.buttonText +
+                                    '</a>' +
+                                    '<button type="button" class="btn-watched ' + (isWatched ? 'is-watched' : '') + '">' +
+                                        (isWatched ? 'Посмотрели ❤️' : 'Отметить «Посмотрели ❤️»') +
+                                    '</button>' +
+                                '</div>' +
+                            '</div>' +
+
+                        '</div>';
+
+                    // Привязываем обработчики с защитой от лишнего переворота
+                    const inner = cardScene.querySelector('.card-inner');
+                    const copyBtn = cardScene.querySelector('.btn-copy');
+                    const watchLink = cardScene.querySelector('.btn-watch');
+                    const watchedBtn = cardScene.querySelector('.btn-watched');
+                    const flipBackBtn = cardScene.querySelector('.btn-flip-back');
+
+                    if (inner) {
+                        inner.addEventListener('click', function () {
+                            toggleCardFlip(item.id, cardScene);
+                        });
+                        inner.addEventListener('keydown', function (event) {
+                            if ((event.key === 'Enter' || event.key === ' ') && event.target === inner) {
+                                event.preventDefault();
+                                toggleCardFlip(item.id, cardScene);
+                            }
+                        });
+                    }
+
+                    if (copyBtn) {
+                        copyBtn.addEventListener('click', function (event) {
+                            event.stopPropagation();
+                            copyTimecode(item.copyValue);
+                        });
+                    }
+
+                    if (watchLink) {
+                        watchLink.addEventListener('click', function (event) {
+                            event.stopPropagation();
+                        });
+                    }
+
+                    if (watchedBtn) {
+                        watchedBtn.addEventListener('click', function (event) {
+                            event.stopPropagation();
+                            toggleWatched(item.id, cardScene);
+                        });
+                    }
+
+                    if (flipBackBtn) {
+                        flipBackBtn.addEventListener('click', function (event) {
+                            event.stopPropagation();
+                            toggleCardFlip(item.id, cardScene);
+                        });
+                    }
+
+                    grid.appendChild(cardScene);
+                });
+
+                updateStatsUI();
+            }
+
+            function toggleCardFlip(id, cardSceneEl) {
+                const idx = state.flippedIds.indexOf(id);
+                const willFlipToBack = idx === -1;
+
+                if (willFlipToBack) {
+                    state.flippedIds.push(id);
+                    cardSceneEl.classList.add('is-flipped');
+
+                    if (state.openedIds.indexOf(id) === -1) {
+                        state.openedIds.push(id);
+                        saveState();
+                    }
+                } else {
+                    state.flippedIds.splice(idx, 1);
+                    cardSceneEl.classList.remove('is-flipped');
+                }
+
+                const inner = cardSceneEl.querySelector('.card-inner');
+                if (inner) {
+                    inner.setAttribute('aria-pressed', String(willFlipToBack));
+                }
+
+                updateStatsUI();
+            }
+
+            function toggleWatched(id, cardSceneEl) {
+                const idx = state.watchedIds.indexOf(id);
+                const isNowWatched = idx === -1;
+
+                if (isNowWatched) {
+                    state.watchedIds.push(id);
+                    showToast('Отмечено: посмотрели вместе ❤️');
+                } else {
+                    state.watchedIds.splice(idx, 1);
+                    showToast('Отметка просмотра снята');
+                }
+
+                saveState();
+
+                const watchedBtn = cardSceneEl.querySelector('.btn-watched');
+                const frontCta = cardSceneEl.querySelector('.front-cta');
+
+                if (watchedBtn) {
+                    watchedBtn.textContent = isNowWatched ? 'Посмотрели ❤️' : 'Отметить «Посмотрели ❤️»';
+                    watchedBtn.classList.toggle('is-watched', isNowWatched);
+                }
+
+                if (frontCta) {
+                    frontCta.textContent = isNowWatched ? 'Посмотрели ❤️' : 'Нажми, чтобы перевернуть ✦';
+                    frontCta.classList.toggle('front-cta--watched', isNowWatched);
+                }
+
+                updateStatsUI();
+            }
+
+            function updateStatsUI() {
+                const openedCount = state.openedIds.length;
+                const watchedCount = state.watchedIds.length;
+                const total = MOMENTS_DATA.length;
+
+                const openedEl = document.getElementById('opened-count');
+                const watchedEl = document.getElementById('watched-count');
+                const toggleAllText = document.getElementById('btn-toggle-all-text');
+
+                if (openedEl) openedEl.textContent = String(openedCount);
+                if (watchedEl) watchedEl.textContent = String(watchedCount);
+                if (toggleAllText) {
+                    toggleAllText.textContent = state.flippedIds.length === total ? 'Свернуть все' : 'Открыть все';
+                }
+
+                if (openedCount >= total && !unlockAnnounced && !state.letterOpened) {
+                    unlockAnnounced = true;
+                    showToast('Все 7 карточек открыты! Письмо разблокировано ✨');
+                }
+
+                updateEnvelopeUI(openedCount, total);
+            }
+
+            function updateEnvelopeUI(openedCount, total) {
+                const sealedWrap = document.getElementById('sealed-envelope-wrapper');
+                const openedWrap = document.getElementById('opened-letter-wrapper');
+                const envelopeCard = document.getElementById('envelope-card');
+                const statusText = document.getElementById('envelope-status-text');
+                const progressBar = document.getElementById('envelope-progress-bar');
+                const ctaWrap = document.getElementById('envelope-cta-wrap');
+                const openNowWrap = document.getElementById('open-now-wrap');
+
+                if (!sealedWrap || !openedWrap || !envelopeCard || !statusText || !progressBar || !ctaWrap) {
+                    return;
+                }
+
+                if (state.letterOpened) {
+                    sealedWrap.classList.add('is-hidden');
+                    openedWrap.classList.remove('is-hidden');
+                    return;
+                }
+
+                sealedWrap.classList.remove('is-hidden');
+                openedWrap.classList.add('is-hidden');
+
+                const percent = Math.round((openedCount / total) * 100);
+                progressBar.style.width = percent + '%';
+
+                if (openedCount >= total) {
+                    envelopeCard.classList.add('is-unlocked');
+                    statusText.textContent = 'Все 7 карточек открыты! Нажми на конверт, чтобы распечатать письмо ✨';
+                    ctaWrap.classList.remove('is-hidden');
+                    if (openNowWrap) openNowWrap.classList.add('is-hidden');
+                } else {
+                    envelopeCard.classList.remove('is-unlocked');
+                    statusText.innerHTML = 'Открой все 7 карточек, чтобы распечатать письмо ✨ — открыто <strong style="color: #f6d38b;">' + openedCount + '</strong> из ' + total;
+                    ctaWrap.classList.add('is-hidden');
+                    if (openNowWrap) openNowWrap.classList.remove('is-hidden');
+                }
+            }
+
+            /* ============================================================================
+               7. ЭФФЕКТ ЗОЛОТЫХ ИСКР ПРИ ОТКРЫТИИ ПИСЬМА
+               ============================================================================ */
+            function spawnGoldenSparkles(originX, originY) {
+                const colors = ['#f6d38b', '#df9f44', '#e88c9d', '#faf4ec'];
+                const count = 24;
+
+                for (let i = 0; i < count; i++) {
+                    const el = document.createElement('div');
+                    el.className = 'sparkle-particle';
+                    const angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.4;
+                    const dist = 60 + Math.random() * 130;
+                    const tx = Math.cos(angle) * dist;
+                    const ty = Math.sin(angle) * dist - 24;
+                    const size = 8 + Math.random() * 9;
+                    const color = colors[i % colors.length];
+
+                    el.style.left = originX + 'px';
+                    el.style.top = originY + 'px';
+                    el.style.width = size + 'px';
+                    el.style.height = size + 'px';
+                    el.style.setProperty('--tx', tx + 'px');
+                    el.style.setProperty('--ty', ty + 'px');
+                    el.innerHTML = '<svg viewBox="0 0 24 24" fill="' + color + '" width="100%" height="100%"><path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z"></path></svg>';
+
+                    document.body.appendChild(el);
+                    setTimeout(function () {
+                        if (el.parentNode) {
+                            el.parentNode.removeChild(el);
+                        }
+                    }, 1150);
+                }
+            }
+
+            function openSecretLetter(event) {
+                state.letterOpened = true;
+                saveState();
+
+                const envelopeCard = document.getElementById('envelope-card');
+                let cx = window.innerWidth / 2;
+                let cy = window.innerHeight / 2;
+
+                if (event && typeof event.clientX === 'number' && event.clientX > 0) {
+                    cx = event.clientX;
+                    cy = event.clientY;
+                } else if (envelopeCard) {
+                    const rect = envelopeCard.getBoundingClientRect();
+                    cx = rect.left + rect.width / 2;
+                    cy = rect.top + rect.height / 2;
+                }
+
+                spawnGoldenSparkles(cx, cy);
+                updateStatsUI();
+
+                const section = document.getElementById('letter-section');
+                if (section && typeof section.scrollIntoView === 'function') {
+                    setTimeout(function () {
+                        section.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, 100);
+                }
+            }
+
+            /* ============================================================================
+               8. КНОПКИ ПАНЕЛИ УПРАВЛЕНИЯ И КОНВЕРТА
+               ============================================================================ */
+            function bindControls() {
+                const btnToggleAll = document.getElementById('btn-toggle-all');
+                const btnShuffle = document.getElementById('btn-shuffle');
+                const btnReset = document.getElementById('btn-reset');
+                const envelopeCard = document.getElementById('envelope-card');
+                const btnOpenNow = document.getElementById('btn-open-letter-now');
+                const btnCloseLetter = document.getElementById('btn-close-letter');
+
+                // Открыть все / Свернуть все
+                if (btnToggleAll) {
+                    btnToggleAll.addEventListener('click', function () {
+                        const allIds = MOMENTS_DATA.map(function (m) { return m.id; });
+                        const allFlipped = state.flippedIds.length === allIds.length;
+
+                        if (allFlipped) {
+                            state.flippedIds = [];
+                        } else {
+                            state.flippedIds = allIds.slice();
+                            allIds.forEach(function (id) {
+                                if (state.openedIds.indexOf(id) === -1) {
+                                    state.openedIds.push(id);
+                                }
+                            });
+                            saveState();
+                        }
+
+                        const cards = document.querySelectorAll('.card-scene');
+                        cards.forEach(function (el) {
+                            const id = Number(el.dataset.id);
+                            const shouldFlip = state.flippedIds.indexOf(id) !== -1;
+                            el.classList.toggle('is-flipped', shouldFlip);
+                            const inner = el.querySelector('.card-inner');
+                            if (inner) inner.setAttribute('aria-pressed', String(shouldFlip));
+                        });
+
+                        updateStatsUI();
+                    });
+                }
+
+                // Перемешать карточки
+                if (btnShuffle) {
+                    btnShuffle.addEventListener('click', function () {
+                        for (let i = state.order.length - 1; i > 0; i--) {
+                            const j = Math.floor(Math.random() * (i + 1));
+                            const temp = state.order[i];
+                            state.order[i] = state.order[j];
+                            state.order[j] = temp;
+                        }
+                        renderCards(true);
+                        showToast('Карточки перемешаны ✦');
+                    });
+                }
+
+                // Сбросить прогресс
+                if (btnReset) {
+                    btnReset.addEventListener('click', function () {
+                        state.order = MOMENTS_DATA.map(function (m) { return m.id; });
+                        state.openedIds = [];
+                        state.watchedIds = [];
+                        state.flippedIds = [];
+                        state.letterOpened = false;
+                        unlockAnnounced = false;
+                        safeStorage.removeItem(STORAGE_KEY);
+                        renderCards(true);
+                        showToast('Прогресс сброшен ✦');
+                    });
+                }
+
+                // Клик по конверту
+                if (envelopeCard) {
+                    envelopeCard.addEventListener('click', function (event) {
+                        if (state.openedIds.length >= MOMENTS_DATA.length) {
+                            openSecretLetter(event);
+                        } else {
+                            const left = MOMENTS_DATA.length - state.openedIds.length;
+                            showToast('Осталось открыть карточек: ' + left + ' ✨');
+                        }
+                    });
+
+                    envelopeCard.addEventListener('keydown', function (event) {
+                        if (event.key === 'Enter' || event.key === ' ') {
+                            event.preventDefault();
+                            envelopeCard.click();
+                        }
+                    });
+                }
+
+                // Открыть письмо сразу
+                if (btnOpenNow) {
+                    btnOpenNow.addEventListener('click', function (event) {
+                        openSecretLetter(event);
+                    });
+                }
+
+                // Свернуть письмо обратно в конверт
+                if (btnCloseLetter) {
+                    btnCloseLetter.addEventListener('click', function () {
+                        state.letterOpened = false;
+                        saveState();
+                        updateStatsUI();
+                    });
+                }
+            }
+
+            /* ============================================================================
+               9. ФОНОВАЯ АНИМАЦИЯ CANVAS: ЗВЁЗДНОЕ НЕБО И ПАРЯЩИЕ ФОНАРИКИ
+               ============================================================================ */
+            function initStarlitCanvas() {
+                const canvas = document.getElementById('sky-canvas');
+                if (!canvas) return;
+                const ctx = canvas.getContext('2d');
+                if (!ctx) return;
+
+                let width = window.innerWidth || 1024;
+                let height = window.innerHeight || 768;
+                let stars = [];
+                let lanterns = [];
+                let mouseX = 0;
+                let mouseY = 0;
+                let targetMouseX = 0;
+                let targetMouseY = 0;
+                let frameTime = 0;
+
+                function createLantern(randomY) {
+                    const depth = 0.35 + Math.random() * 0.85;
+                    const size = (8 + Math.random() * 10) * depth;
+                    return {
+                        x: Math.random() * width,
+                        y: randomY ? Math.random() * (height + 120) : height + 40 + Math.random() * 120,
+                        w: size * 0.78,
+                        h: size * 1.15,
+                        vy: (0.14 + Math.random() * 0.25) * depth,
+                        driftAmp: 12 + Math.random() * 22,
+                        driftSpeed: 0.004 + Math.random() * 0.007,
+                        phase: Math.random() * Math.PI * 2,
+                        flickerPhase: Math.random() * Math.PI * 2,
+                        depth: depth,
+                        alpha: (0.34 + Math.random() * 0.42) * depth
+                    };
+                }
+
+                function populateScene() {
+                    const starCount = Math.min(130, Math.max(50, Math.floor((width * height) / 11000)));
+                    stars = [];
+                    for (let i = 0; i < starCount; i++) {
+                        stars.push({
+                            x: Math.random() * width,
+                            y: Math.random() * height,
+                            r: 0.5 + Math.random() * 1.4,
+                            baseAlpha: 0.24 + Math.random() * 0.64,
+                            phase: Math.random() * Math.PI * 2,
+                            speed: 0.008 + Math.random() * 0.02,
+                            tint: Math.random() > 0.82 ? '#e88c9d' : (Math.random() > 0.45 ? '#f6d38b' : '#faf4ec'),
+                            depth: 0.2 + Math.random() * 0.8
+                        });
+                    }
+
+                    const lanternCount = width < 640 ? 10 : 18;
+                    lanterns = [];
+                    for (let j = 0; j < lanternCount; j++) {
+                        lanterns.push(createLantern(true));
+                    }
+                }
+
+                function handleResize() {
+                    width = Math.max(320, window.innerWidth || 1024);
+                    height = Math.max(320, window.innerHeight || 768);
+                    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+                    canvas.width = Math.floor(width * dpr);
+                    canvas.height = Math.floor(height * dpr);
+                    canvas.style.width = width + 'px';
+                    canvas.style.height = height + 'px';
+                    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+                    populateScene();
+                }
+
+                function drawLantern(l) {
+                    const swayX = Math.sin(frameTime * l.driftSpeed + l.phase) * l.driftAmp;
+                    const px = l.x + swayX + mouseX * 14 * l.depth;
+                    const py = l.y + mouseY * 8 * l.depth;
+                    const flicker = 0.88 + Math.sin(frameTime * 0.05 + l.flickerPhase) * 0.12;
+                    const a = Math.min(1, l.alpha * flicker);
+
+                    ctx.save();
+                    ctx.translate(px, py);
+                    ctx.rotate(Math.cos(frameTime * l.driftSpeed + l.phase) * 0.08);
+
+                    const glowRadius = l.h * 2.5;
+                    const glow = ctx.createRadialGradient(0, 0, l.w * 0.15, 0, 0, glowRadius);
+                    glow.addColorStop(0, 'rgba(246, 211, 139, ' + (0.42 * a).toFixed(3) + ')');
+                    glow.addColorStop(0.45, 'rgba(223, 159, 68, ' + (0.15 * a).toFixed(3) + ')');
+                    glow.addColorStop(1, 'rgba(223, 159, 68, 0)');
+                    ctx.fillStyle = glow;
+                    ctx.beginPath();
+                    ctx.arc(0, 0, glowRadius, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    const halfW = l.w / 2;
+                    const halfH = l.h / 2;
+                    const bodyGrad = ctx.createLinearGradient(0, -halfH, 0, halfH);
+                    bodyGrad.addColorStop(0, 'rgba(223, 159, 68, ' + (0.86 * a).toFixed(3) + ')');
+                    bodyGrad.addColorStop(0.55, 'rgba(246, 211, 139, ' + (0.95 * a).toFixed(3) + ')');
+                    bodyGrad.addColorStop(1, 'rgba(255, 244, 214, ' + (0.98 * a).toFixed(3) + ')');
+
+                    ctx.fillStyle = bodyGrad;
+                    ctx.beginPath();
+                    ctx.moveTo(-halfW, -halfH * 0.7);
+                    ctx.quadraticCurveTo(0, -halfH * 1.15, halfW, -halfH * 0.7);
+                    ctx.lineTo(halfW * 0.76, halfH);
+                    ctx.quadraticCurveTo(0, halfH * 1.12, -halfW * 0.76, halfH);
+                    ctx.closePath();
+                    ctx.fill();
+
+                    ctx.fillStyle = 'rgba(255, 252, 238, ' + (0.92 * a).toFixed(3) + ')';
+                    ctx.beginPath();
+                    ctx.ellipse(0, halfH * 0.55, halfW * 0.36, halfH * 0.22, 0, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    ctx.restore();
+                }
+
+                function animate() {
+                    frameTime += 1;
+                    mouseX += (targetMouseX - mouseX) * 0.04;
+                    mouseY += (targetMouseY - mouseY) * 0.04;
+
+                    ctx.clearRect(0, 0, width, height);
+
+                    for (let i = 0; i < stars.length; i++) {
+                        const s = stars[i];
+                        const twinkle = 0.5 + 0.5 * Math.sin(frameTime * s.speed + s.phase);
+                        const alpha = s.baseAlpha * (0.35 + 0.65 * twinkle);
+                        const sx = s.x + mouseX * 7 * s.depth;
+                        const sy = s.y + mouseY * 7 * s.depth;
+
+                        ctx.globalAlpha = alpha;
+                        ctx.fillStyle = s.tint;
+                        ctx.beginPath();
+                        ctx.arc(sx, sy, s.r, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+
+                    ctx.globalAlpha = 1;
+
+                    for (let j = 0; j < lanterns.length; j++) {
+                        const l = lanterns[j];
+                        l.y -= l.vy;
+                        if (l.y < -l.h * 3) {
+                            lanterns[j] = createLantern(false);
+                        }
+                        drawLantern(l);
+                    }
+
+                    window.requestAnimationFrame(animate);
+                }
+
+                window.addEventListener('mousemove', function (event) {
+                    targetMouseX = (event.clientX / width - 0.5) * 2;
+                    targetMouseY = (event.clientY / height - 0.5) * 2;
+                }, { passive: true });
+
+                window.addEventListener('resize', handleResize);
+                handleResize();
+                animate();
+            }
+
+            /* ============================================================================
+               10. ЗАПУСК ПРИ ЗАГРУЗКЕ DOM
+               ============================================================================ */
+            document.addEventListener('DOMContentLoaded', function () {
+                loadState();
+                renderCards(false);
+                bindControls();
+                initStarlitCanvas();
+            });
+        })();
+    </script>
+</body>
+</html>
